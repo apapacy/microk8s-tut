@@ -1,0 +1,22 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: django
+  labels:
+    app: django
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      pod: django-container
+  template:
+    metadata:
+      labels:
+        pod: django-container
+    spec:
+      containers:
+        - name: django-web
+          image: localhost:32000/apapacy/tut-django:1.0.0
+          ports:
+            - containerPort: 8000
+          

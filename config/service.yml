@@ -1,0 +1,13 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: django-service
+spec:
+  selector:
+    pod: django-container
+  ports:
+  - protocol: TCP
+    port: 8000
+    # targetPort: 8001
+  type: ClusterIP
+  # type: NodePort

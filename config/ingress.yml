@@ -1,0 +1,22 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: tut-django
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  backend:
+    serviceName: default-http-backend
+    servicePort: 80
+  rules:
+  - host: localhost
+    http:
+      paths:
+      - path: /test
+        backend:
+          serviceName: nginx
+          servicePort: 80
+      - path: /django
+        backend:
+          serviceName: django-service
+          servicePort: 8000
