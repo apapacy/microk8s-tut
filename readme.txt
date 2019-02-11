@@ -10,3 +10,9 @@ microk8s.kubectl expose deployment django --type=NodePort
 -microk8s.kubectl delete -f config/deployment.yml
 
 microk8s.kubectl apply -f config/service.yml
+
+
+openssl req -x509 -newkey rsa:4096 -sha256 -nodes -keyout tls.key -out tls.crt -subj "/CN=localhost" -days 365
+kubectl create secret tls test-localhost --cert=tls.crt --key=tls.key
+minikube ip
+curl -k --header host:localhost https://192.168.42.131

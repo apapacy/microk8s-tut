@@ -16,7 +16,6 @@ spec:
     spec:
       containers:
         - name: django-web
-          image: localhost:32000/apapacy/tut-django:1.0.0
+          image: apapacy/tut-django:1.0.0
           ports:
             - containerPort: 8000
-          
