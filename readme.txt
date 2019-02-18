@@ -16,3 +16,13 @@ openssl req -x509 -newkey rsa:4096 -sha256 -nodes -keyout tls.key -out tls.crt -
 kubectl create secret tls test-localhost --cert=tls.crt --key=tls.key
 minikube ip
 curl -k --header host:localhost https://192.168.42.131
+
+
+
+= nomad
+
+consul agent -server -client 127.0.0.1 -advertise 127.0.0.1 -data-dir /tmp/consul -ui -bootstrap
+
+http://127.0.0.1:8500/ui/dc1/services
+
+nomad run nomad/django.conf

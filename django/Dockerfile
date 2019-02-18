@@ -4,7 +4,8 @@ WORKDIR /app
 
 COPY requirements.txt .
 RUN pip install -r requirements.txt
-RUN django-admin startproject mysite /app
+RUN django-admin startproject mysite /app \
+&& echo "\nALLOWED_HOSTS = ['*']\n" >> /app/mysite/settings.py
 EXPOSE 8000
 STOPSIGNAL SIGINT
 ENTRYPOINT ["python", "manage.py"]
