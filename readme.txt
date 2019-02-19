@@ -21,8 +21,12 @@ curl -k --header host:localhost https://192.168.42.131
 
 = nomad
 
-consul agent -server -client 127.0.0.1 -advertise 127.0.0.1 -data-dir /tmp/consul -ui -bootstrap
+consul agent  -config-dir=/home/andrey/projects/microk8s-tut/consul -server -client 127.0.0.1 -advertise 127.0.0.1 -data-dir /tmp/consul -ui -bootstrap -dev
 
 http://127.0.0.1:8500/ui/dc1/services
+
+nomad agent --config nomad/nomad.conf
+
+docker build django/ -t apapacy/tut-django:1.0.1
 
 nomad run nomad/django.conf

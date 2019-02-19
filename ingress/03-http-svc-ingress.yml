@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: app
+spec:
+  rules:
+  - host: foo.bar
+    http:
+      paths:
+      - path: /app
+        backend:
+          serviceName: http-svc
+          servicePort: 8080
+      - path: /
+        backend:
+          serviceName: ingress-default-backend
+          servicePort: 8080
