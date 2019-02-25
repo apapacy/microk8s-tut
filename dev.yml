@@ -9,5 +9,5 @@ services:
       - ./nginx/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf
       - ./nginx/lua/:/home/ubuntu/ngx_lua_anticc/
       - ./log/:/var/log/nginx/
-      - ./config/:/usr/local/openresty/nginx/html/
+      - ./nginx/html/:/usr/local/openresty/nginx/html/
     network_mode: "host"
