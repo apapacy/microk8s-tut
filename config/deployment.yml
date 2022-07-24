@@ -1,4 +1,4 @@
-apiVersion: apps/v1beta2
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: django
@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
         - name: django-web
-          image: apapacy/tut-django:1.0.0
+          image: apapacy/tut-django:1.0.1
           ports:
             - containerPort: 8000
