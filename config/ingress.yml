@@ -4,10 +4,9 @@ metadata:
   name: http-ingress
 spec:
   rules:
-  - host: ldap.example.com
-    http:
+  - http:
       paths:
-      - path: /
+      - path: /django
         pathType: Prefix
         backend:
           service:

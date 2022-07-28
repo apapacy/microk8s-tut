@@ -1,0 +1,10 @@
+HTTP/2.0 200 OK
+Content-Length: 578
+Audit-Id: 5d9e3a00-3a80-4617-8470-e56080d73fa6
+Cache-Control: no-cache, private
+Content-Type: application/json
+Date: Tue, 26 Jul 2022 01:53:43 GMT
+X-Kubernetes-Pf-Flowschema-Uid: 80f38570-b45e-4d4c-9b6c-539400a5e505
+X-Kubernetes-Pf-Prioritylevel-Uid: 3813664a-72fb-4f72-8121-c3de66f9075a
+
+{"kind":"APIResourceList","apiVersion":"v1","groupVersion":"openebs.io/v1alpha1","resources":[{"name":"blockdeviceclaims","singularName":"blockdeviceclaim","namespaced":true,"kind":"BlockDeviceClaim","verbs":["delete","deletecollection","get","list","patch","create","update","watch"],"shortNames":["bdc"],"storageVersionHash":"acNPN2upmpE="},{"name":"blockdevices","singularName":"blockdevice","namespaced":true,"kind":"BlockDevice","verbs":["delete","deletecollection","get","list","patch","create","update","watch"],"shortNames":["bd"],"storageVersionHash":"kMG8xzew1ws="}]}

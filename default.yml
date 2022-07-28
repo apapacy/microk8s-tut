@@ -1,0 +1,99 @@
+apiVersion: k0s.k0sproject.io/v1beta1
+kind: ClusterConfig
+metadata:
+  creationTimestamp: null
+  name: k0s
+spec:
+  api:
+    address: 192.168.0.105
+    k0sApiPort: 9443
+    port: 6443
+    sans:
+    - 192.168.0.105
+    - 172.18.0.1
+    - 172.20.0.1
+    - 172.17.0.1
+    - 192.168.16.1
+    - 10.244.0.1
+    - fe80::e2d1:58a0:3377:88a9
+    - fe80::7453:23ff:fe31:47db
+    - fe80::84f0:98ff:fe1f:9ebc
+    - fe80::742c:c6ff:feda:2557
+    tunneledNetworkingMode: false
+  controllerManager: {}
+  extensions:
+    helm:
+      charts: null
+      repositories: null
+    storage:
+      create_default_storage_class: false
+      type: external_storage
+  images:
+    calico:
+      cni:
+        image: docker.io/calico/cni
+        version: v3.23.1
+      kubecontrollers:
+        image: docker.io/calico/kube-controllers
+        version: v3.23.1
+      node:
+        image: docker.io/calico/node
+        version: v3.23.1
+    coredns:
+      image: k8s.gcr.io/coredns/coredns
+      version: v1.7.0
+    default_pull_policy: IfNotPresent
+    konnectivity:
+      image: quay.io/k0sproject/apiserver-network-proxy-agent
+      version: 0.0.31-k0s
+    kubeproxy:
+      image: k8s.gcr.io/kube-proxy
+      version: v1.24.2
+    kuberouter:
+      cni:
+        image: docker.io/cloudnativelabs/kube-router
+        version: v1.4.0
+      cniInstaller:
+        image: quay.io/k0sproject/cni-node
+        version: 1.1.1-k0s.0
+    metricsserver:
+      image: k8s.gcr.io/metrics-server/metrics-server
+      version: v0.5.2
+    pushgateway:
+      image: quay.io/k0sproject/pushgateway-ttl
+      version: edge@sha256:7031f6bf6c957e2fdb496161fe3bea0a5bde3de800deeba7b2155187196ecbd9
+  installConfig:
+    users:
+      etcdUser: etcd
+      kineUser: kube-apiserver
+      konnectivityUser: konnectivity-server
+      kubeAPIserverUser: kube-apiserver
+      kubeSchedulerUser: kube-scheduler
+  konnectivity:
+    adminPort: 8133
+    agentPort: 8132
+  network:
+    calico: null
+    clusterDomain: cluster.local
+    dualStack: {}
+    kubeProxy:
+      mode: iptables
+    kuberouter:
+      autoMTU: true
+      mtu: 0
+      peerRouterASNs: ""
+      peerRouterIPs: ""
+    podCIDR: 10.244.0.0/16
+    provider: kuberouter
+    serviceCIDR: 10.96.0.0/12
+  podSecurityPolicy:
+    defaultPolicy: 00-k0s-privileged
+  scheduler: {}
+  storage:
+    etcd:
+      externalCluster: null
+      peerAddress: 192.168.0.105
+    type: etcd
+  telemetry:
+    enabled: true
+status: {}

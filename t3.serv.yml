@@ -1,0 +1,51 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    meta.helm.sh/release-name: traefik
+    meta.helm.sh/release-namespace: kube-system
+  creationTimestamp: "2022-07-27T06:19:53Z"
+  finalizers:
+  - svccontroller.k3s.cattle.io/daemonset
+  labels:
+    app.kubernetes.io/instance: traefik
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: traefik
+    helm.sh/chart: traefik-10.24.0
+  name: traefik
+  namespace: kube-system
+  resourceVersion: "8197"
+  uid: c89ec3c5-b249-4777-b45f-52e191284a81
+spec:
+  allocateLoadBalancerNodePorts: true
+  externalIPs:
+    - 192.168.0.105
+
+  clusterIP: 10.43.1.108
+  clusterIPs:
+  - 10.43.1.108
+  externalTrafficPolicy: Cluster
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - name: web
+    nodePort: 31155
+    port: 80
+    protocol: TCP
+    targetPort: web
+  - name: websecure
+    nodePort: 30421
+    port: 443
+    protocol: TCP
+    targetPort: websecure
+  selector:
+    app.kubernetes.io/instance: traefik
+    app.kubernetes.io/name: traefik
+  sessionAffinity: None
+  type: LoadBalancer
+status:
+  loadBalancer:
+    ingress:
+    - ip: 192.168.0.105

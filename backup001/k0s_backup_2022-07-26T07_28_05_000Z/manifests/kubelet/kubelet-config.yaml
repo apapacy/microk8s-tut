@@ -1,0 +1,90 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kubelet-config-default-1.24
+  namespace: kube-system
+data:
+  kubelet: |
+
+    apiVersion: kubelet.config.k8s.io/v1beta1
+    cgroupsPerQOS: true
+    clusterDNS:
+    - 10.96.0.10
+    clusterDomain: cluster.local
+    eventRecordQPS: 0
+    failSwapOn: false
+    kind: KubeletConfiguration
+    rotateCertificates: true
+    serverTLSBootstrap: true
+    tlsCipherSuites:
+    - TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256
+    - TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+    - TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305
+    - TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+    - TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305
+    - TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384
+    - TLS_RSA_WITH_AES_256_GCM_SHA384
+    - TLS_RSA_WITH_AES_128_GCM_SHA256
+    
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kubelet-config-default-windows-1.24
+  namespace: kube-system
+data:
+  kubelet: |
+
+    apiVersion: kubelet.config.k8s.io/v1beta1
+    cgroupsPerQOS: false
+    clusterDNS:
+    - 10.96.0.10
+    clusterDomain: cluster.local
+    eventRecordQPS: 0
+    failSwapOn: false
+    kind: KubeletConfiguration
+    rotateCertificates: true
+    serverTLSBootstrap: true
+    tlsCipherSuites:
+    - TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256
+    - TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+    - TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305
+    - TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+    - TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305
+    - TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384
+    - TLS_RSA_WITH_AES_256_GCM_SHA384
+    - TLS_RSA_WITH_AES_128_GCM_SHA256
+    
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: system:bootstrappers:kubelet-configmaps
+  namespace: kube-system
+rules:
+- apiGroups: [""]
+  resources: ["configmaps"]
+  resourceNames:
+    - "kubelet-config-default-1.24"
+
+    - "kubelet-config-default-windows-1.24"
+
+  verbs: ["get"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: system:bootstrappers:kubelet-configmaps
+  namespace: kube-system
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: system:bootstrappers:kubelet-configmaps
+subjects:
+  - apiGroup: rbac.authorization.k8s.io
+    kind: Group
+    name: system:bootstrappers
+  - apiGroup: rbac.authorization.k8s.io
+    kind: Group
+    name: system:nodes

@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: minio-pv-claim
+  labels:
+    app: minio-storage-claim
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gif
+
+#helm install dev-redis-chart-1 bitnami/redis --namespace dev-redis --set global.redis.password=redispass,master.persistence.existingClaim=minio-pv-claim,replica.replicaCount=2,replica.persistence.storageClass=manual,replica.persistence.size=2Gi 
+

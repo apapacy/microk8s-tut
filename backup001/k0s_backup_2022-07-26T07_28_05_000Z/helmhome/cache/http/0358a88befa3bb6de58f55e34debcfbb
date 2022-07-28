@@ -1,0 +1,10 @@
+HTTP/2.0 200 OK
+Content-Length: 962
+Audit-Id: 05aa715d-f4a3-4fb9-beb0-80de1e014ae0
+Cache-Control: no-cache, private
+Content-Type: application/json
+Date: Tue, 26 Jul 2022 01:53:43 GMT
+X-Kubernetes-Pf-Flowschema-Uid: 80f38570-b45e-4d4c-9b6c-539400a5e505
+X-Kubernetes-Pf-Prioritylevel-Uid: 3813664a-72fb-4f72-8121-c3de66f9075a
+
+{"kind":"APIResourceList","apiVersion":"v1","groupVersion":"autopilot.k0sproject.io/v1beta2","resources":[{"name":"controlnodes","singularName":"controlnode","namespaced":false,"kind":"ControlNode","verbs":["delete","deletecollection","get","list","patch","create","update","watch"],"storageVersionHash":"QDHh/4+5Atg="},{"name":"controlnodes/status","singularName":"","namespaced":false,"kind":"ControlNode","verbs":["get","patch","update"]},{"name":"plans","singularName":"plan","namespaced":false,"kind":"Plan","verbs":["delete","deletecollection","get","list","patch","create","update","watch"],"storageVersionHash":"aCyLF6ZZNts="},{"name":"plans/status","singularName":"","namespaced":false,"kind":"Plan","verbs":["get","patch","update"]},{"name":"updateconfigs","singularName":"updateconfig","namespaced":false,"kind":"UpdateConfig","verbs":["delete","deletecollection","get","list","patch","create","update","watch"],"storageVersionHash":"inq7gWeC+HM="}]}

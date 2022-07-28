@@ -1,0 +1,17 @@
+
+apiVersion: helm.k0sproject.io/v1beta1
+kind: Chart
+metadata:
+  name: k0s-addon-chart-openebs
+  namespace: "kube-system"
+  finalizers:
+    - helm.k0sproject.io/uninstall-helm-release
+spec:
+  chartName: openebs-internal/openebs
+  releaseName: openebs
+  timeout: 30m0s
+  values: |
+
+    
+  version: 3.0.3
+  namespace: openebs

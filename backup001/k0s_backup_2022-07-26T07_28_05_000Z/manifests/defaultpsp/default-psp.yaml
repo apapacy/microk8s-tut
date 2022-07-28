@@ -1,0 +1,141 @@
+
+apiVersion: policy/v1beta1
+kind: PodSecurityPolicy
+metadata:
+  name: 00-k0s-privileged
+  annotations:
+    kubernetes.io/description: 'privileged allows full unrestricted access to
+      pod features, as if the PodSecurityPolicy controller was not enabled.'
+    seccomp.security.alpha.kubernetes.io/allowedProfileNames: '*'
+  labels:
+    kubernetes.io/cluster-service: "true"
+spec:
+  privileged: true
+  allowPrivilegeEscalation: true
+  allowedCapabilities:
+  - '*'
+  volumes:
+  - '*'
+  hostNetwork: true
+  hostPorts:
+  - min: 0
+    max: 65535
+  hostIPC: true
+  hostPID: true
+  runAsUser:
+    rule: 'RunAsAny'
+  seLinux:
+    rule: 'RunAsAny'
+  supplementalGroups:
+    rule: 'RunAsAny'
+  fsGroup:
+    rule: 'RunAsAny'
+  readOnlyRootFilesystem: false
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: k0s:podsecuritypolicy:privileged
+  labels:
+    kubernetes.io/cluster-service: "true"
+rules:
+- apiGroups:
+  - policy
+  resourceNames:
+  - 00-k0s-privileged
+  resources:
+  - podsecuritypolicies
+  verbs:
+  - use
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: kube-system-psp
+  namespace: kube-system
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: k0s:podsecuritypolicy:privileged
+subjects:
+# For the kubeadm kube-system nodes
+- apiGroup: rbac.authorization.k8s.io
+  kind: Group
+  name: system:nodes
+# For the cluster-admin role
+- apiGroup: rbac.authorization.k8s.io
+  kind: Group
+  name: cluster-admin
+# For all service accounts in the kube-system namespace
+- apiGroup: rbac.authorization.k8s.io
+  kind: Group
+  name: system:serviceaccounts:kube-system
+---
+apiVersion: policy/v1beta1
+kind: PodSecurityPolicy
+metadata:
+  annotations:
+  name: 99-k0s-restricted
+spec:
+  allowedCapabilities: []  # default set of capabilities are implicitly allowed
+  allowPrivilegeEscalation: false
+  fsGroup:
+    rule: 'MustRunAs'
+    ranges:
+      # Forbid adding the root group.
+      - min: 1
+        max: 65535
+  hostIPC: false
+  hostNetwork: false
+  hostPID: false
+  privileged: false
+  readOnlyRootFilesystem: false
+  runAsUser:
+    rule: 'MustRunAsNonRoot'
+  seLinux:
+    rule: 'RunAsAny'
+  supplementalGroups:
+    rule: 'MustRunAs'
+    ranges:
+      # Forbid adding the root group.
+      - min: 1
+        max: 65535
+  volumes:
+  - 'configMap'
+  - 'downwardAPI'
+  - 'emptyDir'
+  - 'persistentVolumeClaim'
+  - 'projected'
+  - 'secret'
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: k0s:podsecuritypolicy:default
+rules:
+- apiGroups:
+  - policy
+  resourceNames:
+  - 00-k0s-privileged
+  resources:
+  - podsecuritypolicies
+  verbs:
+  - use
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: default-psp
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: k0s:podsecuritypolicy:default
+subjects:
+# For authenticated users
+- apiGroup: rbac.authorization.k8s.io
+  kind: Group
+  name: system:authenticated
+# For all service accounts
+- apiGroup: rbac.authorization.k8s.io
+  kind: Group
+  name: system:serviceaccounts
